@@ -9,10 +9,3 @@ class Calculator():
         else:
             return a/b
 
-    #相乘
-    def mul(self,a,b):
-        return a*b
-
-    #相减
-    def sub(self,a,b):
-        return a-b
