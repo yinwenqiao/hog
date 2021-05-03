@@ -1,7 +1,7 @@
 # This sample code uses the Appium python client
 # pip install Appium-Python-Client
 # Then you can paste this into a file and simply run with Python
-
+import pytest
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
 
@@ -27,7 +27,8 @@ class TestWx():
         # 资源销毁
         self.driver.quit()
 
-    def test_case(self):
+    @pytest.mark.parametrize('name,mobile', [('cathy', '13312341234')])
+    def test_case(self, name, mobile):
         # 测试用例
         self.driver.find_element(MobileBy.XPATH, '//*[@text="通讯录"]').click(),
         # uiaotomator的定位方式，Android原生的定位方式，滚动查找某个文字
@@ -38,11 +39,15 @@ class TestWx():
         # 点击姓名输入框
         self.driver.find_element(MobileBy.XPATH, "//*[@resource-id='com.tencent.wework:id/ays']").click()
         # 输入姓名
-        self.driver.find_element(MobileBy.XPATH, "//*[@resource-id='com.tencent.wework:id/ays']").send_keys('小贝壳')
+        self.driver.find_element(MobileBy.XPATH, "//*[@resource-id='com.tencent.wework:id/ays']").send_keys(name)
         # 点击手机输入框
         self.driver.find_element(MobileBy.XPATH, "//*[@resource-id='com.tencent.wework:id/f4m']").click()
         # 输入手机号
         self.driver.find_element(MobileBy.XPATH, "//*[@resource-id='com.tencent.wework:id/f4m']").send_keys(
-            '13312341234')
+            mobile)
         # 点击保存
         self.driver.find_element(MobileBy.XPATH, "//*[@resource-id='com.tencent.wework:id/ac9']").click()
+        self.driver.back()
+        self.driver.back()
+
+        self.driver.find_element(MobileBy.XPATH, '//*[@text="{}"]'.format(name)).click()
